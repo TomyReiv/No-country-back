@@ -13,5 +13,6 @@ export interface UserInterface extends AuthInterface {
     country: string;
     comments: Array<ObjectId>;
     trips: Array<ObjectId>;
-    role?: UserRole
+    role?: UserRole;
+    last_connection: Date
 }

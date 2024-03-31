@@ -15,7 +15,8 @@ const UserSchema = new Schema<UserInterface & Document>({
     "_id": false,
     tid: { type: mongoose.Schema.Types.ObjectId, ref: 'Trip' },
   }],
-  role: { type: String, enum: ['ADMIN', 'USER'], default: 'USER' }
+  role: { type: String, enum: ['ADMIN', 'USER'], default: 'USER' },
+  last_connection: {type: Date, default: Date.now()}
 });
 
 
