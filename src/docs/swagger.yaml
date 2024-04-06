@@ -1,0 +1,156 @@
+openapi: 3.0.0
+info:
+  title: Documentación de la API de Viajes
+  description: API para compartir rutas de viaje favoritas, consejos y recomendaciones sobre destinos, actividades y lugares de interés.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api
+paths:
+  /usuarios:
+    post:
+      summary: Crear Usuario
+      description: Crea un nuevo usuario en la plataforma.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                correo:
+                  type: string
+                contraseña:
+                  type: string
+                pais:
+                  type: string
+                comentarios:
+                  type: array
+                viajes:
+                  type: array
+      responses:
+        "200":
+          description: Usuario creado exitosamente.
+    get:
+      summary: Obtener Usuarios
+      description: Obtiene una lista de todos los usuarios registrados en la plataforma.
+      responses:
+        "200":
+          description: Lista de usuarios obtenida correctamente.
+  /usuarios/{id}:
+    get:
+      summary: Obtener Usuario por ID
+      description: Obtiene la información de un usuario específico por su ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del usuario.
+      responses:
+        "200":
+          description: Información del usuario obtenida correctamente.
+  /viajes:
+    post:
+      summary: Crear Ruta de Viaje
+      description: Crea una nueva ruta de viaje en la plataforma.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                usuario:
+                  type: string
+                comentario:
+                  type: array
+                fecha:
+                  type: date
+                lugar:
+                  type: string
+      responses:
+        "200":
+          description: Ruta de viaje creada exitosamente.
+    get:
+      summary: Obtener Todas las Rutas de Viaje
+      description: Obtiene todas las rutas de viaje disponibles en la plataforma.
+      responses:
+        "200":
+          description: Lista de rutas de viaje obtenida correctamente.
+  /lugares:
+    post:
+      summary: Crear Lugar
+      description: Crea un nuevo lugar en la plataforma.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                ubicacion:
+                  type: string
+                pais:
+                  type: string
+                comentario:
+                  type: array
+      responses:
+        "200":
+          description: Lugar creado exitosamente.
+    get:
+      summary: Obtener Todos los Lugares
+      description: Obtiene todos los lugares disponibles en la plataforma.
+      responses:
+        "200":
+          description: Lista de lugares obtenida correctamente.
+  /comentarios:
+    post:
+      summary: Crear Comentario
+      description: Crea un nuevo comentario en la plataforma.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                usuario:
+                  type: string
+                texto:
+                  type: string
+                respuestas:
+                  type: array
+                fecha:
+                  type: date
+                lugar:
+                  type: string
+      responses:
+        "200":
+          description: Comentario creado exitosamente.
+    get:
+      summary: Obtener Todos los Comentarios
+      description: Obtiene todos los comentarios disponibles en la plataforma.
+      responses:
+        "200":
+          description: Lista de comentarios obtenida correctamente.
+components:
+  schemas:
+    Lugar:
+      type: object
+      properties:
+        nombre:
+          type: string
+        descripcion:
+          type: string
+    Comentario:
+      type: object
+      properties:
+        usuario:
+          type: string
+        contenido:
+          type: string
