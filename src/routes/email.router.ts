@@ -41,7 +41,7 @@ router.get("/pass-recover/:token", async (req: Request, res: Response, next: Nex
         Jwt.verify(token, secretKey, async (error, payload: any) => {
             if (error) res.status(403).json({ message: "No authorized" });
             const user = await userController.findOne(payload);
-            res.redirect(`${frontURL}/${user.id}`);
+            res.redirect(`${frontURL}/users/recovery/${user.id}`);
         });
     } catch (error) {
         next(error);
