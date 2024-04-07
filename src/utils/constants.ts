@@ -11,5 +11,5 @@ export const secretGoogle: string = process.env.secretGoogle || '';
 export const GMAIL_USER:string =  process.env.GMAIL_USER!;
 export const GMAIL_PASS:string =  process.env.GMAIL_PASS!;
 
-export const backURL:string = 'http://localhost:8080';
-export const frontURL:string = 'http://localhost:8080';
+export const backURL:string = process.env.backURL || 'http://localhost:8080';
+export const frontURL:string = process.env.frontURL || 'http://localhost:3000';

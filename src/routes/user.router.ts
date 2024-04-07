@@ -53,7 +53,16 @@ router.post(
     }),
     async (req: Request, res: Response, next: NextFunction) => {
         try {
-            res.status(200).json({ message: "Usuario creado" });
+            const { email, ...rest } = req.body;
+
+            const userToken = await userController.findOne(req.body);
+
+            const token = tokenGenerator(userToken);
+            res.status(200).json({
+                ok: true,
+                token,
+                msg: "Loggin exitoso"
+            });
         } catch (error) {
             next(error);
         }
