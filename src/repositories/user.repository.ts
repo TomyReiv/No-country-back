@@ -5,7 +5,7 @@ import { UserInterface } from '../interfaces/user.interface';
 class UserRepository {
     async getAllUsers(): Promise<UserDTO[]> {
         try {
-            const users = await User.find().populate("comments.cid").populate("trips");
+            const users = await User.find().populate("comments").populate("trips");
             const usersDTO = users.map(user => new UserDTO(user.toObject()));
             return usersDTO;
         } catch (error) {
