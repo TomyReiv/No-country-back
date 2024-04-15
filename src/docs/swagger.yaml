@@ -138,7 +138,42 @@ paths:
       responses:
         "200":
           description: Lista de comentarios obtenida correctamente.
-components:
+  /comment/${id}:
+    get:
+      summary: Obtener un comentario en especifico.
+      description: Obtiene un comentario especifico disponible en la plataforma.
+      responses:
+        "200":
+          description: Obtiene un objeto del comentario obtenido
+    update:
+      summary: Actualiza un comentario ya existente
+      description: actualizar un comentario existente en la plataforma.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                texto:
+                  type: string
+      responses: 
+        "200":
+          description: "Comentario actualizado correctamente"
+    delete:
+      summary: Eliminar un comentario.
+      description: Eliminar un comentario existente en la plataforma.
+      responses:
+        "200":
+          description: "Comentario eliminado con éxito"
+  /comment/${userId}:
+    get:
+      summary: Obtener comentarios.
+      description: Obtiene todos los comentarios existentes de un usuario en especifico.
+      responses:
+        "200":
+          description: Obtiene una lista de los comentarios realizados por un usuario
+  components:
   schemas:
     Lugar:
       type: object

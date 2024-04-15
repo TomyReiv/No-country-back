@@ -1,15 +1,18 @@
 import mongoose, { Schema, Document } from 'mongoose';
 import { tripsInterface } from '../interfaces/trips.interface';
+import placeModel from './place.model';
 
-const commentSchema = new Schema({
-  tid: { type: mongoose.Schema.Types.ObjectId, ref: 'Trip' }
-}, { _id: false });
 
-const TripSchema = new Schema<tripsInterface>({
-  id: { type: String },
+const TripSchema: any = new Schema<tripsInterface>({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  commentsId: [commentSchema],
-  placeId: { type: mongoose.Schema.Types.ObjectId, ref: 'Place', required: true },
+  name:  { type: String, required: true },
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
+  placeId: { type: mongoose.Schema.Types.ObjectId, ref: placeModel, required: true },
+  description: { type: String, required: true },
+  stars:  { type: Number, min: 1, max: 5, required: true },
+  activity: { type: String, required: true },
+  photo:  { type: String },
+  date: { type: Date, default: Date.now() },
 });
 
 

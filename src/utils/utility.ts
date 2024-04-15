@@ -5,6 +5,7 @@ import { secretKey } from "./constants";
 import userModel from "../models/user.model";
 import { Request, Response, NextFunction } from 'express';
 import UserDTO from "../dto/user.dto";
+import userRepository from "../repositories/user.repository";
 
 export const createHash = (password: string) => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
@@ -30,20 +31,20 @@ export const tokenGenerator = (user: UserDTO) =>{
 export const jwtAuthBear = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const token = req.headers.authorization?.split(' ')[1]; 
-        
         if (!token) {
             return res.status(401).json({ error: 'Unauthorized' }); 
         }
 
         const decodedToken = Jwt.verify(token, secretKey) as { id: string };
 
-        const user = await userModel.findById(decodedToken.id);
+        const user = await userRepository.getUserById(decodedToken.id);
 
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        /* req.user = user; */
+       req.user = decodedToken; 
+       
         next();
     } catch (error) {
         console.error('Error in jwtAuthBear middleware:', error);

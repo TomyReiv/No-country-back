@@ -1,9 +1,14 @@
 import { ObjectId } from "mongoose";
 
 export interface tripsInterface {
-    id: string,
+    id?: string,
     userId: ObjectId,
-    commentsId: Array<ObjectId>,
+    name: string,
+    comments?: Array<ObjectId>,
     date: Date,
-    placeId: ObjectId
+    description: String,
+    activity:string,
+    placeId: ObjectId,
+    photo?: Array<String>,
+    stars: Number,
 }

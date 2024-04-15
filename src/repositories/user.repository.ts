@@ -1,12 +1,11 @@
 import User from '../models/user.model';
 import UserDTO from '../dto/user.dto';
 import { UserInterface } from '../interfaces/user.interface';
-import { Types } from 'mongoose';
 
 class UserRepository {
     async getAllUsers(): Promise<UserDTO[]> {
         try {
-            const users = await User.find().populate("comments.cid").populate("trips.tid");
+            const users = await User.find().populate("comments.cid").populate("trips");
             const usersDTO = users.map(user => new UserDTO(user.toObject()));
             return usersDTO;
         } catch (error) {
@@ -27,9 +26,7 @@ class UserRepository {
 
     async getUserById(uid: any): Promise<UserDTO | null> {
         try {
-            const user2 = await User.findOne({_id:uid});
-            const user = await User.findById(uid).populate("comments.cid").populate("trips.tid");
-
+            const user = await User.findById(uid).populate("comments.cid").populate("trips");
             if (!user) return null;
             return new UserDTO(user.toObject());
         } catch (error) {
@@ -43,11 +40,11 @@ class UserRepository {
             const savedUser = await newUser.save();
             return savedUser;
         } catch (error) {
-            throw new Error(`Error al obtener usuario por ID: ${(error as Error).message}`);
+            throw new Error(`Error al crear el usuario: ${(error as Error).message}`);
         }
     }
 
-    async updateUser(userId: string, userData: any): Promise<any> {
+    async updateUser(userId: any, userData: any): Promise<any> {
         try {
             const user = await User.findByIdAndUpdate(userId, userData, { new: true })
             if (!user) {
@@ -64,7 +61,7 @@ class UserRepository {
             const user = await User.findByIdAndDelete(userId)
             return { msg: "Usuario eliminado" }
         } catch (error) {
-            throw new Error(`Error al actualizar usuario: ${(error as Error).message}`);
+            throw new Error(`Error al eliminar usuario: ${(error as Error).message}`);
         }
 
     }

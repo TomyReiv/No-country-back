@@ -7,11 +7,13 @@ export default class UserDTO {
     last_name: string;
     email: string;
     country: string;
-    comments: Array<any>;
+    comments?: Array<any>;
     trips: Array<any>;
     role?: string;
     last_connection: Date;
-    status?: string
+    avatar?:String;
+    status?: string;
+    leter?: string;
 
     constructor(user: UserInterface) {
         this.id = user._id!;
@@ -22,8 +24,10 @@ export default class UserDTO {
         this.comments = user.comments || [];
         this.trips = user.trips || [];
         this.role = user.role;
+        this.avatar = user.avatar;
         this.last_connection = user.last_connection;
-        this.status = user.status
+        this.status = user.status;
+        this.leter = user.first_name.trim().split("")[0].toUpperCase();
     }
 }
 

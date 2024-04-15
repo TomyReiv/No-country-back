@@ -16,13 +16,14 @@ Run the server with npm run dev (development) or npm start (production)
 
 | Type | Details | Route     | Description                |
 | :-------- |:-------- | :------- | :------------------------- |
-| GET | get all users | http://localhost:PORT/api/users/:id |  headers: {token} |
-| GET | get user by id | http://localhost:PORT/api/users |  headers: {token} |
+| GET | get all users | http://localhost:PORT/api/users |  headers: {token} |
+| GET | get user by id | http://localhost:PORT/api/users/:id |  headers: {token} |
 | POST |  Register user   | http://localhost:PORT/api/users |  body : accept all User Schema |
 | POST |  Login user   | http://localhost:PORT/api/users/login |  body : { email, password } |
 | POST |  Login with google   | http://localhost:PORT/api/users/loginGoogle |  body : { name, email, image } |
 | PUT | upgrade user by id |  http://localhost:PORT/api/users/:id | params : { id }, body : accept all User Schema, headers: {token} |
 | DELETE | delete user by id | http://localhost:PORT/api/users/:id | params: { id }; headers: {token} |
+| GET | logout | http://localhost:PORT/api/users/logout/:id | params: { id }; headers: {token} |
 
 
 ### User schema
@@ -36,7 +37,10 @@ Run the server with npm run dev (development) or npm start (production)
 | country | string | true |
 | comments | array[string] | false |
 | trips | array[string] | false |
+| favorites | array[string] | false |
+| avatar | string | false |
 | role | string | false |
+| status | string | false |
 
 ### Email
 
@@ -49,8 +53,8 @@ Run the server with npm run dev (development) or npm start (production)
 
 | Type | Details | Route     | Description                |
 | :-------- |:-------- | :------- | :------------------------- |
-| GET | get all places | http://localhost:PORT/api/places/:id |  headers: {token} |
-| GET | get place by id | http://localhost:PORT/api/places |  headers: {token} |
+| GET | get all places | http://localhost:PORT/api/places |  headers: {token} |
+| GET | get place by id | http://localhost:PORT/api/places/:id |  headers: {token} |
 | POST |  Register place   | http://localhost:PORT/api/places |  body : accept all place Schema |
 | PUT | upgrade place by id |  http://localhost:PORT/api/places/:id | params : { id }, body : accept all place Schema, headers: {token} |
 | DELETE | delete place by id | http://localhost:PORT/api/places/:id | params: { id }; headers: {token} |
@@ -62,7 +66,19 @@ Run the server with npm run dev (development) or npm start (production)
 | Name | string | true |
 | location | string | true |
 | Country | string | false |
+| Image | string | false |
 | Comments | array[string] | true |
+
+### Comments
+
+| Type | Details | Route     | Description                |
+| :-------- |:-------- | :------- | :------------------------- |
+| GET | get all comments | http://localhost:PORT/api/comments |  headers: {token} |
+| GET | get all comments by user | http://localhost:PORT/api/comment/:id |  headers: {token} |
+| GET | get comment by id | http://localhost:PORT/api/comment |  headers: {token} |
+| POST |  create comment   | http://localhost:PORT/api/comment |  body : accept all Comment Schema |
+| PUT | upgrade comment by id |  http://localhost:PORT/api/comment/:id | params : { id }, body : text, headers: {token} |
+| DELETE | delete comment by id | http://localhost:PORT/api/comment/:id | params: { id }; headers: {token} |
 
 ### Comment schema
 
@@ -74,6 +90,16 @@ Run the server with npm run dev (development) or npm start (production)
 | date | string | true |
 | placeId | string | true |
 
+### Trip
+
+| Type | Details | Route     | Description                |
+| :-------- |:-------- | :------- | :------------------------- |
+| GET | get all trips | http://localhost:PORT/api/trip |  headers: {token} filter: query{} |
+| GET | get trip by id | http://localhost:PORT/api/trip/:id |  headers: {token} |
+| POST |  Register trip   | http://localhost:PORT/api/trip |  body : accept all trip Schema |
+| PUT | upgrade trip by id |  http://localhost:PORT/api/trip/:id | params : { id }, body : accept all trip Schema, headers: {token} |
+| DELETE | delete trip by id | http://localhost:PORT/api/trip/:id | params: { id }; headers: {token} |
+
 ### Trip schema
 
 | Key | Type |  Required |
@@ -82,6 +108,7 @@ Run the server with npm run dev (development) or npm start (production)
 | commentsId | array[string] | false |
 | date | string | true |
 | placeId | string | true |
+| description | string | true |
 
 ## Backend developers
 
