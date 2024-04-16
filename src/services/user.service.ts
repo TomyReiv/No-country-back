@@ -57,7 +57,7 @@ class UserService {
     try {
       const { name, email, image } = userData.user;
       const user: any = await UserRepository.findOne(userData.user);
-
+      
       if (!user) {
         const newUser: any = {
           first_name: name,

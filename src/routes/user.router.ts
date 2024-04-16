@@ -37,7 +37,7 @@ router.get('/users/:uid', jwtAuthBear, async (req: Request, res: Response, next:
 router.post("/users/loginGoogle", async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userToken = await UserController.loggGoogle(req.body);
-        const user = await userController.getUserById(userToken._id);
+        const user = await userController.getUserById(userToken.id);
         const token = tokenGenerator(userToken);
         return res.status(CODE.OK).json({
             ok: true,
