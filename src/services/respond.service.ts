@@ -31,7 +31,7 @@ class respondService{
                 if (!user) throw new Error("Usuario no encontrado");
                 const comment = await commentModel.findById(commentId);
                 if (!comment) throw new Error("Comentario no encontrado");
-                comment.respondsId.push(newResp._id);
+                comment.respondsId!.push(newResp._id);
                 const userUp = await commentModel.findByIdAndUpdate(commentId, { respondsId: comment.respondsId }, { new: true });
                 console.log('Comentario actualizado');
             }
