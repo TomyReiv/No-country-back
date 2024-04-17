@@ -8,7 +8,7 @@ import Place from "../models/place.model";
 class CommentsRepository {
   async getAllComments(): Promise<CommentDto[] | []> {
     try {
-      const comments = await Comment.find();
+      const comments = await Comment.find().populate('placeId');
       const commentsDto = comments.map(
         (comment) => new CommentDto(comment.toObject())
       );
@@ -21,7 +21,7 @@ class CommentsRepository {
   }
   async getCommentById(commentId: string): Promise<CommentDto | null> {
     try {
-      const comment = await Comment.findById(commentId).exec();
+      const comment = await Comment.findById(commentId).populate('placeId').exec();
 
       if (!comment) {
         return null;

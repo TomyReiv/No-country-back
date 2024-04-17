@@ -56,6 +56,22 @@ class UserRepository {
         }
     }
 
+/*     async updateFavorite(id: any, favorite: any) {
+        try {
+            const user = await User.findById(id);                      
+            if (!user) {
+                throw new Error(`No se encontró el usuario con ID ${id}`);
+            }
+            user.favorites?.push(favorite);
+            console.log(user);
+                        
+            await user.save();
+            return {msg: 'Agregado a favoritos'};
+        } catch (error) {
+            throw new Error(`Error al actualizar usuario: ${(error as Error).message}`);
+        }
+    } */
+
     async deleteUser(userId: string): Promise<any> {
         try {
             const user = await User.findByIdAndDelete(userId)

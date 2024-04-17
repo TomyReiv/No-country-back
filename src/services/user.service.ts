@@ -5,11 +5,12 @@ import { createHash } from '../utils/utility';
 import { userGoogle, userObject } from '../interfaces/jwtPayload';
 import { secretGoogle } from '../utils/constants';
 import userModel from '../models/user.model';
+import tripRepository from '../repositories/trip.repository';
 
 class UserService {
   async getAllUsers(): Promise<UserDTO[]> {
     try {
-      const users = await UserRepository.getAllUsers();     
+      const users = await UserRepository.getAllUsers();
       if (!users) throw new Error('Usuarios no encontrados');
       return users;
     } catch (error: any) {
@@ -57,7 +58,7 @@ class UserService {
     try {
       const { name, email, image } = userData.user;
       const user: any = await UserRepository.findOne(userData.user);
-      
+
       if (!user) {
         const newUser: any = {
           first_name: name,
@@ -79,11 +80,32 @@ class UserService {
   async updateUser(userId: string, userData: any): Promise<UserDTO | null> {
     try {
       const user = await UserRepository.getUserById(userId);
-      
+
       if (!user) throw new Error("El usuario no existe");
       if (userData.password) userData.password = createHash(userData.password!);
       return await UserRepository.updateUser(userId, userData);
     } catch (error: any) {
+      throw new Error(`Error al actualizar usuario: ${(error as Error).message}`);
+    }
+  }
+
+  async updateFavorite(id: any, favorite: any) {
+    try {
+      const user = await UserRepository.getUserById(id);
+      if (!user) throw new Error("Usuario no encontrado");
+      const trip = await tripRepository.getTripById(favorite);
+      if(!trip) throw new Error("El viaje no existe");
+
+      const stringifiedFavorites = user.favorites?.map((fav: any) => fav.toString());
+
+      if (stringifiedFavorites && stringifiedFavorites.includes(favorite.toString())) {
+        throw new Error("El viaje ya está en la lista de favoritos del usuario");
+      }
+            
+      user.favorites?.push(favorite);
+      const userUp = await userModel.findByIdAndUpdate(id, { favorites: user.favorites }, { new: true });
+      return {msg: 'Usuario actualoizado'};
+    } catch (error) {
       throw new Error(`Error al actualizar usuario: ${(error as Error).message}`);
     }
   }

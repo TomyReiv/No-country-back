@@ -6,5 +6,6 @@ export interface commentsInterface {
     text: string,
     respondsId?: Array<ObjectId>,
     date: Date,
-    placeId: ObjectId
+    placeId: ObjectId,
+    image?: string
 }

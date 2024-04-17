@@ -12,6 +12,7 @@ const CommentSchema = new Schema<commentsInterface & Document>({
     }],
     date: {type: Date, default: Date.now(), required: true},
     placeId: { type: mongoose.Schema.Types.ObjectId, ref: 'Place', require: true },
+    image: {type:  String}
 });
 
 

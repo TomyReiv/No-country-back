@@ -37,7 +37,7 @@ router.get('/users/:uid', jwtAuthBear, async (req: Request, res: Response, next:
 router.post("/users/loginGoogle", async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userToken = await UserController.loggGoogle(req.body);
-        const user = await userController.getUserById(userToken.id);
+        const user = await userController.getUserById(userToken._id);
         const token = tokenGenerator(userToken);
         return res.status(CODE.OK).json({
             ok: true,
@@ -122,6 +122,17 @@ router.put('/users/:uid', jwtAuthBear, upload.single('avatar'), async (req: Requ
         next(error);
     }
 });
+
+router.put('/users/favorites/:id', jwtAuthBear, async (req: Request, res: Response, next: NextFunction)=>{
+    try {
+        const { favorites } = req.body;       
+        const { id } = req.params;
+        await UserController.updateFavorite(id, favorites);
+        res.status(CODE.OK).json({ message: 'Usuario actualizado correctamente' });
+    } catch (error) {
+        next(error);
+    }
+})
 
 
 router.delete('/users/:uid', jwtAuthBear, adminPolicy, async (req: Request, res: Response, next: NextFunction) => {

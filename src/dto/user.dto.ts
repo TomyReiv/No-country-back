@@ -14,6 +14,7 @@ export default class UserDTO {
     avatar?:String;
     status?: string;
     leter?: string;
+    favorites?: Array<any>;
 
     constructor(user: UserInterface) {
         this.id = user._id!;
@@ -27,6 +28,7 @@ export default class UserDTO {
         this.avatar = user.avatar;
         this.last_connection = user.last_connection;
         this.status = user.status;
+        this.favorites = user.favorites;
         this.leter = user.first_name.trim().split("")[0].toUpperCase();
     }
 }
