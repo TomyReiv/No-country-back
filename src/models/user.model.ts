@@ -4,7 +4,7 @@ import { UserInterface } from '../interfaces/user.interface';
 const UserSchema = new Schema<UserInterface>({
   first_name: { type: String, required: true },
   last_name: { type: String, required: true },
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   country: { type: String, required: true },
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],

@@ -3,9 +3,9 @@ import { commentsInterface } from "../interfaces/coments.interface";
 import commentsService from "../services/comments.service";
 
 class CommentController {
-  async getAllComment(): Promise<CommentDto[]> {
+  async getAllComment(query:any): Promise<CommentDto[]> {
     try {
-      return await commentsService.getAllComment();
+      return await commentsService.getAllComment(query);
     } catch (error) {
       throw new Error((error as Error).message);
     }

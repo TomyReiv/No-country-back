@@ -12,7 +12,8 @@ const router: Router = express.Router()
 
 router.get('/', async (req: Request, res: Response) => {
 	try {
-		const places = await PlaceController.getAllPlaces()
+		const { query = {} } = req;
+		const places = await PlaceController.getAllPlaces(query)
 		res.status(CODE.OK).json(places)
 	} catch (error) {
 		res
@@ -35,7 +36,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 
 router.post(
 	'/',
-	isLogged,
+	/* isLogged, */
 	upload.single('image'),
 	handlePlaceValidationErrors,
 	async (req: Request, res: Response) => {

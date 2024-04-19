@@ -7,7 +7,7 @@ export default class CommentDto {
     text: string;
     respondsId: Array<ObjectId>;
     date: Date;
-    placeId: ObjectId;
+    tripId: ObjectId;
 
     constructor(comments: commentsInterface){
         this.id = comments._id!;
@@ -15,6 +15,6 @@ export default class CommentDto {
         this.text = comments.text;
         this.respondsId = comments.respondsId || [];
         this.date = comments.date;
-        this.placeId = comments.placeId;
+        this.tripId = comments.tripId;
     }
 }

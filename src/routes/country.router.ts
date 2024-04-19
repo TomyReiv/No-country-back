@@ -1,5 +1,4 @@
 import express, { Request, Response, NextFunction } from "express";
-import { generatePlaces } from "../utils/fakerGenerate"
 import { CODE } from "../utils/constants";
 import axios from 'axios';
 

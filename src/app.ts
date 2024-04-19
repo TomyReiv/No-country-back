@@ -7,17 +7,20 @@ import cors from "cors"
 import { port, secret } from "./utils/constants";
 import cookieParser from 'cookie-parser';
 import { init } from "./db/mongodb";
+
 import userRouter from './routes/user.router';
 import placeRouter from './routes/place.router'
 import commentsRouter from './routes/comments.router';
 import countryRouter from "./routes/country.router";
+import cityRouter  from "./routes/city.router";
+import tripRouter from './routes/trip.router';
+import emailRouter from './routes/email.router';
 
 import passport from "passport";
 import { init as initPassport } from "./config/passport.config";
 import session from 'express-session';
-import emailRouter from './routes/email.router';
 import { errorHandler } from './middlewares/error.middleware';
-import tripRouter from './routes/trip.router';
+
 
 const app: Express = express()
 app.use(express.json())
@@ -51,7 +54,7 @@ app.use(passport.session())
 
 const specs = swaggerJSDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-app.use('/api', userRouter, emailRouter, tripRouter, commentsRouter, countryRouter);
+app.use('/api', userRouter, emailRouter, tripRouter, commentsRouter, countryRouter, cityRouter);
 app.use('/api/places', placeRouter)
 
 async function startServer() {

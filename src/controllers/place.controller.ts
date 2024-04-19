@@ -3,9 +3,9 @@ import { placesInterface } from '../interfaces/places.interface'
 import PlaceService from '../services/place.service'
 
 class PlaceController {
-	async getAllPlaces(): Promise<PlaceDTO[]> {
+	async getAllPlaces(query:any): Promise<PlaceDTO[]> {
 		try {
-			return await PlaceService.getAllPlaces()
+			return await PlaceService.getAllPlaces(query)
 		} catch (error) {
 			throw new Error(
 				`Error al obtener los lugares: ${(error as Error).message}`

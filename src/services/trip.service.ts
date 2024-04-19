@@ -3,9 +3,10 @@ import { tripsInterface } from "../interfaces/trips.interface";
 import userModel from "../models/user.model";
 import tripRepository from "../repositories/trip.repository";
 import userRepository from "../repositories/user.repository";
+import placeRepository from "../repositories/place.repository";
 
 class tripService {
-    async getAllTrips(query:any): Promise<any[]> {
+    async getAllTrips(query: any): Promise<any[]> {
         try {
             const trips = await tripRepository.getAllTrips(query);
             if (!trips) throw new Error('Viajes no encontrados');
@@ -34,13 +35,30 @@ class tripService {
     }
     async createTrip(tripData: tripsInterface): Promise<any> {
         try {
-            const { userId, ...rest } = tripData;
+            const { userId, placeId, ...rest } = tripData;
+            const user = await userRepository.getUserById(userId);
+            const place = await placeRepository.getPlaceById(placeId);
+            
+            if (!user) throw new Error("Usuario no encontrado");
+            if (!place) throw new Error("Lugar de interes no encontrado");
             const newTrip = await tripRepository.createTrip(tripData);
             if (newTrip) {
-                const user = await userRepository.getUserById(userId);
-                if (!user) throw new Error("Usuario no encontrado");
+               
+                const stringifiedStars = place.stars?.map((str: any) => str.uid.toString());
+
+                if (stringifiedStars && stringifiedStars.includes(userId.toString())) {
+                  throw new Error("El usuario ya valoro este viaje");
+                }
+
                 user.trips.push(newTrip.savedTrip._id);
+                place.stars.push({
+                    rating: tripData.stars,
+                    uid: userId
+                });
                 const userUp = await userModel.findByIdAndUpdate(userId, { trips: user.trips }, { new: true });
+                const placeUp = await placeRepository.updatePlace(placeId, { stars: place.stars });
+                console.log(placeUp);
+
                 console.log('Usuario actualizado');
             }
             return newTrip;

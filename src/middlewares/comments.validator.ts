@@ -8,7 +8,7 @@ export const createCommentValidator = [
     .withMessage("Text is required")
     .isLength({ min: 10 })
     .withMessage("Text should beat least 10 characters"),
-  body('placeId').notEmpty().withMessage('Place is required')
+  body('tripId').notEmpty().withMessage('Place is required')
 ];
 export const updateCommentValidator = [
   body("text")

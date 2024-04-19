@@ -1,14 +1,13 @@
-import { log } from "console";
 import CommentDto from "../dto/comments.dto";
 import { commentsInterface } from "../interfaces/coments.interface";
 import Comment from "../models/comment.model";
 import User from "../models/user.model";
-import Place from "../models/place.model";
+import Trip from "../models/trip.model";
 
 class CommentsRepository {
-  async getAllComments(): Promise<CommentDto[] | []> {
+  async getAllComments(query:any): Promise<CommentDto[] | []> {
     try {
-      const comments = await Comment.find().populate('placeId');
+      const comments = await Comment.find(query).populate('tripId');
       const commentsDto = comments.map(
         (comment) => new CommentDto(comment.toObject())
       );
@@ -38,27 +37,28 @@ class CommentsRepository {
   async createComment(commentData: commentsInterface): Promise<any> {
     try {
       const date = new Date();
-      const user = await User.findById(commentData.userId);
-      const place = await Place.findById(commentData.placeId);
+      const { userId, tripId } = commentData;
+      const user = await User.findById(userId);
+      const trip = await Trip.findById(tripId);
 
       if (!user) {
         throw new Error(
-          `No existe el usuario con la id: ${commentData.userId}`
+          `No existe el usuario con la id: ${userId}`
         );
       }
-      if (!place) {
-        throw new Error(`No existe el lugar con el id: ${commentData.placeId}`);
+      if (!trip) {
+        throw new Error(`No existe el lugar con el id: ${tripId}`);
       }
+
       const newComment = new Comment({ ...commentData, date });
 
       const savedComment = await newComment.save();
 
       user.comments?.push(savedComment._id);
-            
-      place.comments?.push(savedComment._id);
+      trip.comments?.push(savedComment._id);
 
       await user.save();
-      await place.save();
+      await trip.save();
 
       return savedComment;
     } catch (error) {
@@ -72,7 +72,7 @@ class CommentsRepository {
       if (!comment) {
         throw new Error(`No existe el comentario buscado`);
       }
-      return {msg:"Comentario eliminado con éxito!"};
+      return { msg: "Comentario eliminado con éxito!" };
     } catch (error) {
       throw new Error(
         `Error al eliminar comentario: ${(error as Error).message}`
@@ -89,7 +89,7 @@ class CommentsRepository {
         throw new Error(`Comentario no encontrado`);
       }
 
-      return {msg:"Comentario actualizado"};
+      return { msg: "Comentario actualizado" };
     } catch (error) {
       throw new Error(
         `Error al actualizar comentario: ${(error as Error).message}`
