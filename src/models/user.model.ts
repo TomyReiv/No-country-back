@@ -9,7 +9,7 @@ const UserSchema = new Schema<UserInterface>({
   country: { type: String, required: true },
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
   trips: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Trip' }],
-  favorites: [{type: mongoose.Schema.Types.ObjectId, ref: 'Trip'}],
+  favorites: [{type: mongoose.Schema.Types.ObjectId, ref: 'Place'}],
   role: { type: String, enum: ['ADMIN', 'USER'], default: 'USER' },
   avatar: {type:String},
   last_connection: { type: Date, default: Date.now() },

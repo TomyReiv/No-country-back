@@ -5,6 +5,6 @@ export interface cityInterface {
 	name: string
 	location: string
 	country: string
-	image?: string
+	image?: Array<string>
     places?: Array<ObjectId>
 }

@@ -5,6 +5,7 @@ export interface placesInterface {
 	name: string
 	city:ObjectId
 	image?: string
+	description?: string
 	trip: Array<any>
 	stars?: Array<any>
 }

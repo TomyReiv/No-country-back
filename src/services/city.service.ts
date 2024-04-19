@@ -34,8 +34,13 @@ class CityService {
 
     async updateCity(id:any, data:any){
         try {
-            const city = await cityRepository.upgradeCity(id, data);
-            return city;
+            const city = await cityRepository.getCityBiId(id);
+            if (!city) throw new Error("City not found");
+            if(data.image){
+                city.image!.push(data.image);
+                return await cityRepository.upgradeCity(id, {image: city.image});
+            }
+            return await cityRepository.upgradeCity(id, data);
         } catch (error) {
             throw new Error(`Error al actualizar ciudad por ID: ${(error as Error).message}`);
         }
@@ -43,8 +48,9 @@ class CityService {
 
     async daleteCity(id:any){
         try {
-            const city = await cityRepository.deleteCity(id);
-            return city;
+            const city = await cityRepository.getCityBiId(id);
+            if (!city) throw new Error("City not found");
+            return await cityRepository.deleteCity(id);
         } catch (error) {
             throw new Error(`Error al actualizar ciudad por ID: ${(error as Error).message}`);
         }

@@ -6,6 +6,7 @@ import { userGoogle, userObject } from '../interfaces/jwtPayload';
 import { secretGoogle } from '../utils/constants';
 import userModel from '../models/user.model';
 import tripRepository from '../repositories/trip.repository';
+import placeRepository from '../repositories/place.repository';
 
 class UserService {
   async getAllUsers(): Promise<UserDTO[]> {
@@ -93,13 +94,13 @@ class UserService {
     try {
       const user = await UserRepository.getUserById(id);
       if (!user) throw new Error("Usuario no encontrado");
-      const trip = await tripRepository.getTripById(favorite);
-      if(!trip) throw new Error("El viaje no existe");
+      const place = await placeRepository.getPlaceById(favorite);
+      if(!place) throw new Error("El lugar no existe");
 
       const stringifiedFavorites = user.favorites?.map((fav: any) => fav.toString());
 
       if (stringifiedFavorites && stringifiedFavorites.includes(favorite.toString())) {
-        throw new Error("El viaje ya está en la lista de favoritos del usuario");
+        throw new Error("El lugar ya está en la lista de favoritos del usuario");
       }
             
       user.favorites?.push(favorite);

@@ -9,7 +9,8 @@ const starsSchema = new  Schema({
 
 const PlaceSchema = new Schema<placesInterface>({
 	name: { type: String, required: true, unique: true },
-	city:{type: mongoose.Schema.Types.ObjectId, ref: 'city', required: true},
+	city:{type: mongoose.Schema.Types.ObjectId, ref: 'City', required: true},
+	description: {type: String},
 	image: { type: String },
 	trip: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Trip' }],
 	stars: [starsSchema]
