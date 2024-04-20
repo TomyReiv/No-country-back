@@ -69,6 +69,14 @@ async function startServer() {
 		process.exit(1)
 	}
 }
+
+const hourlyEvent = () => {
+	console.log('Hourly event executed');
+};
+
+
+setInterval(hourlyEvent, 3600000);
+
 app.use(errorHandler);
 export default app;
 
