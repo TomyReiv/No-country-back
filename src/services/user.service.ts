@@ -92,7 +92,7 @@ class UserService {
 
   async updateFavorite(id: any, favorite: any) {
     try {
-      const user = await UserRepository.getUserById(id);
+      const user = await userModel.findById(id);
       if (!user) throw new Error("Usuario no encontrado");
       const place = await placeRepository.getPlaceById(favorite);
       if(!place) throw new Error("El lugar no existe");
