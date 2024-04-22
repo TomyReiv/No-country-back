@@ -50,13 +50,14 @@ class tripService {
                   throw new Error("El usuario ya valoro este viaje");
                 }
 
-                user.trips.push(newTrip.savedTrip._id);
+                place.trip.push(newTrip.savedTrip._id);
                 place.stars.push({
                     rating: tripData.stars,
                     uid: userId
                 });
                 const userUp = await userModel.findByIdAndUpdate(userId, { trips: user.trips }, { new: true });
                 const placeUp = await placeRepository.updatePlace(placeId, { stars: place.stars });
+                const placeUpTrip = await placeRepository.updatePlace(placeId, { trip: place.trip });
                 console.log(placeUp);
 
                 console.log('Usuario actualizado');
