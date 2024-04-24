@@ -7,7 +7,7 @@ import Trip from "../models/trip.model";
 class CommentsRepository {
   async getAllComments(query:any): Promise<CommentDto[] | []> {
     try {
-      const comments = await Comment.find(query).populate('tripId');
+      const comments = await Comment.find(query).populate('tripId').populate('userId');
       const commentsDto = comments.map(
         (comment) => new CommentDto(comment.toObject())
       );
@@ -20,7 +20,7 @@ class CommentsRepository {
   }
   async getCommentById(commentId: string): Promise<CommentDto | null> {
     try {
-      const comment = await Comment.findById(commentId).populate('placeId').exec();
+      const comment = await Comment.findById(commentId).populate('placeId').populate('userId').exec();
 
       if (!comment) {
         return null;
