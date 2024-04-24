@@ -6,7 +6,7 @@ import placeModel from '../models/place.model';
 class tripRepository {
     async getAllTrips(query: any): Promise<any[]> {
         try {
-            const trip = await Trip.find(query).populate("comments.cid").populate("placeId");
+            const trip = await Trip.find(query).populate("comments.cid").populate("placeId").populate("userId");
             return trip;
         } catch (error) {
             throw new Error(`Error al obtener viajes: ${(error as Error).message}`);
@@ -26,7 +26,7 @@ class tripRepository {
 
     async getTripById(tid: any): Promise<any | null> {
         try {
-            const trip = await Trip.findById(tid).populate("comments.cid").populate("placeId");
+            const trip = await Trip.findById(tid).populate("comments.cid").populate("placeId").populate("userId");
             if (!trip) return null;
             return trip
         } catch (error) {
